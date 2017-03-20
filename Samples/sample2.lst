@@ -1,0 +1,49 @@
+Sjasm Z80 Assembler v0.42c - www.xl2s.tk             [2017.03.14 - 18:57:50]
+
+sample2.asm
+Errors: 0
+
+       1   00:0000                      
+       2   00:0000                      
+       3   00:0000                      
+       4   00:0000                      	output 	"sample2.bin"
+       5   00:8200                      
+       6   00:8200  FE                  	db #fe
+       7   00:8201  00 82               	dw START
+       8   00:8203  0D 82               	dw END
+       9   00:8205  00 82               	dw START
+      10   00:8207                      
+      11   00:8207                      	org #8200
+      12   00:8200                      
+      13   00:8200                      START:
+      14   00:8200                      
+      15   00:8200  21 00 00            	ld		hl,#0000			;posición de la memoria VRAM desde donde se va a copiar (origen)
+      16   00:8203  11 00 85            	ld 		de,#8500			;posición de la memoria VRAM donde se va a dejar la copia (destino)
+      17   00:8206  01 FF 37            	ld		bc,#37ff			;cuantos bytes a copiar
+      18   00:8209  CD 59 00            	call	#0059				;llamada a la BIOS función LDIRMV
+      19   00:820C  C9                  	ret
+      20   00:820D                      	
+      21   00:820D                      END:
+
+    LABELS
+-------------------------------------------------
+00:00008200   START
+00:0000820D   END
+
+
+ Output: sample2.out
+-------------------------------------------------
+
+ Page: 00
+  Org: 00008200  Size: *  Used: 00000000
+
+    No output
+
+ Output: sample2.bin
+-------------------------------------------------
+
+ Page: 00
+  Org: 00008200  Size: *  Used: 00000014
+
+   Address   Length Align   Label
+   00008200      20         START

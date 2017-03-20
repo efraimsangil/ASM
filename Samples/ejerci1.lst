@@ -1,0 +1,57 @@
+Sjasm Z80 Assembler v0.42c - www.xl2s.tk             [2017.03.13 - 19:30:01]
+
+ejerci1.asm
+Errors: 0
+
+       1   00:0000                      
+       2   00:0000                      
+       3   00:0000                      
+       4   00:0000                      	output 	"ejerci1.bin"
+       5   00:8500                      
+       6   00:8500  FE                  	db #fe
+       7   00:8501  00 85               	dw START
+       8   00:8503  0D 85               	dw END
+       9   00:8505  00 85               	dw START
+      10   00:8507                      
+      11   00:8507                      	org #8500
+      12   00:8500                      
+      13   00:8500                      START:
+      14   00:8500                      
+      15   00:8500  2A 0D 85            	ld hl,(seed)        ; Pointer
+      16   00:8503  7C                  	ld a,h
+      17   00:8504  E6 1F               	and 31              ; keep it within first 8k of ROM.
+      18   00:8506  67                  	ld h,a
+      19   00:8507  7E                  	ld a,(hl)           ; Get "random" number from location.
+      20   00:8508  23                  	inc hl              ; Increment pointer.
+      21   00:8509  22 0D 85            	ld (seed),hl
+      22   00:850C  C9                  	ret
+      23   00:850D                      	
+      24   00:850D                      END:
+      25   00:850D                      
+      26   00:850D                      seed:
+      27   00:850D                      
+      28   00:850D  00 00               	defw 0
+
+    LABELS
+-------------------------------------------------
+00:00008500   START
+00:0000850D   END
+00:0000850D   seed
+
+
+ Output: ejerci1.out
+-------------------------------------------------
+
+ Page: 00
+  Org: 00008500  Size: *  Used: 00000000
+
+    No output
+
+ Output: ejerci1.bin
+-------------------------------------------------
+
+ Page: 00
+  Org: 00008500  Size: *  Used: 00000016
+
+   Address   Length Align   Label
+   00008500      22         START

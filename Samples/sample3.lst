@@ -1,0 +1,100 @@
+Sjasm Z80 Assembler v0.42c - www.xl2s.tk             [2017.03.20 - 19:05:54]
+
+sample3.asm
+Errors: 0
+
+       1   00:0000                      
+       2   00:0000                      
+       3   00:0000                      
+       4   00:0000                      	output 	"sample3.bin"
+       5   00:8200                      
+       6   00:8200  (00:009F)           CHGET	equ		#009F
+       7   00:8200  (00:00A2)           CHPUT	equ		#00A2			; escribe un carácter y avanza un posición
+       8   00:8200  (00:00C6)           POSIT	equ		#00C6
+       9   00:8200                      	
+      10   00:8200  FE                  	db #fe						; cabecera de ficheros que serán cargados con BLOAD desde BASIC
+      11   00:8201  00 82               	dw START
+      12   00:8203  36 82               	dw END
+      13   00:8205  00 82               	dw START
+      14   00:8207                      
+      15   00:8207                      	org #8200
+      16   00:8200                      
+      17   00:8200                      START:
+      18   00:8200                      	
+      19   00:8200  CD 9F 00            	call 	CHGET				;se queda aquí esperando a que se pulse una tecla
+      20   00:8203                      								; el código ASCII de la tecla se queda pulsada se guarda en el registro A
+      21   00:8203  FE 71               	cp 		'q'					;compara el valor contenido en el registro A con el código ASCII de la letra q (113)
+      22   00:8205  C8                  	ret		z					; termina la rutina y vuelve al BASIC si la comparación ha sido valor de registro A igual a ASCII de 'q'
+      23   00:8206                      	
+      24   00:8206  32 36 82            	ld		(ch_leido),a		;metemos en la posición de memoria ch_leido el valor del registro A (el ASCII de la tecla pulsada)
+      25   00:8209                      	
+      26   00:8209                      	;posicionamos el cursor
+      27   00:8209                      	
+      28   00:8209  3A 39 82            	ld 		a,(eje_y)
+      29   00:820C  67                  	ld 		h,a
+      30   00:820D                      
+      31   00:820D  3A 38 82            	ld 		a,(eje_x)
+      32   00:8210  6F                  	ld 		l,a
+      33   00:8211                      
+      34   00:8211                      	;ld      l,1
+      35   00:8211                      	;ld		hl,(eje_Y)					;posición Y en registro H
+      36   00:8211                      	;ld		l,1						;posición X en registro L 
+      37   00:8211  CD C6 00            	call 	POSIT				;esta llamada a la BIOS es como un LOCATE de BASIC
+      38   00:8214                      	
+      39   00:8214                      	;inicializamos la variable contador
+      40   00:8214  3E 00               	ld		a,0					;ahora el registro A tiene el valor 0
+      41   00:8216  32 37 82            	ld		(contador),a		;metemos en la variable contador el valor del registro A 
+      42   00:8219                      	
+      43   00:8219                      bucle:
+      44   00:8219  3A 36 82            	ld		a,(ch_leido)		;ahora A tiene el valor de la tecla pulsada
+      45   00:821C  CD A2 00            	call 	CHPUT				;imprime el caracter donde esté el cursor y avanza
+      46   00:821F                      
+      47   00:821F  3A 37 82            	ld 		a,(contador)		;registro A tiene el valor actual del contador
+      48   00:8222  3C                  	inc		a 					;a=a+1	
+      49   00:8223  32 37 82            	ld 		(contador),a 		;volvemos a meter el valor de A en la variable contador
+      50   00:8226  FE 28               	cp 		40					;el valor de A es 40?
+      51   00:8228  3A 39 82            	ld 		a,(eje_y)
+      52   00:822B  C6 08               	add 	a,8
+      53   00:822D  32 39 82            	ld 		(eje_y),a
+      54   00:8230  C2 19 82            	jp		nz,bucle			;comprueba el flag NZ (nozero) si es cero su valor salta al bucle, si es 1 (zero) no hace nada
+      55   00:8233                      	
+      56   00:8233  C3 00 82            	jp 		START				;vuelve al principio
+      57   00:8236                      	
+      58   00:8236                      END:
+      59   00:8236                      
+      60   00:8236                      ; DEFINICION DE VARIABLES
+      61   00:8236  00                  ch_leido	db		0
+      62   00:8237  00                  contador	db		0
+      63   00:8238  00                  eje_x		db		0
+      64   00:8239  00                  eje_y		db		0
+
+    LABELS
+-------------------------------------------------
+00:0000009F   CHGET
+00:000000A2   CHPUT
+00:000000C6   POSIT
+00:00008200   START
+00:00008219   bucle
+00:00008236   END
+00:00008236   ch_leido
+00:00008237   contador
+00:00008238   eje_x
+00:00008239   eje_y
+
+
+ Output: sample3.out
+-------------------------------------------------
+
+ Page: 00
+  Org: 00008200  Size: *  Used: 00000000
+
+    No output
+
+ Output: sample3.bin
+-------------------------------------------------
+
+ Page: 00
+  Org: 00008200  Size: *  Used: 00000041
+
+   Address   Length Align   Label
+   00008200      65         START

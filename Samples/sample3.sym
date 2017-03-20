@@ -1,0 +1,10 @@
+CHGET: equ 0000009Fh
+CHPUT: equ 000000A2h
+POSIT: equ 000000C6h
+START: equ 00008200h
+bucle: equ 00008215h
+END: equ 0000822Ah
+ch_leido: equ 0000822Ah
+contador: equ 0000822Bh
+eje_Y: equ 0000822Ch
+eje_X: equ 0000822Dh

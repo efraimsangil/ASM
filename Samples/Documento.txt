@@ -1,0 +1,12 @@
+call #0059			;llamada a la BIOS de la función LDIRMV
+
+LDIRMV
+
+
+Address  : #0059
+Function : Block transfer to memory from VRAM
+Input    : BC - blocklength
+           DE - Start address of memory
+           HL - Start address of VRAM
+Registers: All
+

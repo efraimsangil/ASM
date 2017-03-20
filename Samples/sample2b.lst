@@ -1,0 +1,53 @@
+Sjasm Z80 Assembler v0.42c - www.xl2s.tk             [2017.03.14 - 19:08:38]
+
+sample2b.asm
+Errors: 0
+
+       1   00:0000                      
+       2   00:0000                      
+       3   00:0000                      
+       4   00:0000                      	output 	"sample2b.bin"
+       5   00:8200                      
+       6   00:8200  FE                  	db #fe
+       7   00:8201  00 82               	dw START
+       8   00:8203  13 82               	dw END
+       9   00:8205  00 82               	dw START
+      10   00:8207                      
+      11   00:8207                      	org #8200
+      12   00:8200                      
+      13   00:8200                      START:
+      14   00:8200                      
+      15   00:8200  CD 72 00            	call	#0072				;Inicia SCREEN 2. Llamada a BIOS SETGRP
+      16   00:8203  21 00 85            	ld		hl,#8500			;posición de la memoria VRAM desde donde se va a copiar (origen)
+      17   00:8206  11 00 00            	ld 		de,#0000			;posición de la memoria VRAM donde se va a dejar la copia (destino)
+      18   00:8209  01 FF 37            	ld		bc,#37ff			;cuantos bytes a copiar
+      19   00:820C  CD 5C 00            	call	#005C				;llamada a la BIOS función LDIRVM
+      20   00:820F                      	
+      21   00:820F  CD 9F 00            	call 	#009F				;espera que se pulse una tecla. Llamada a BIOS CHGET
+      22   00:8212                      	
+      23   00:8212  C9                  	ret							;vuelve a BASIC
+      24   00:8213                      	
+      25   00:8213                      END:
+
+    LABELS
+-------------------------------------------------
+00:00008200   START
+00:00008213   END
+
+
+ Output: sample2b.out
+-------------------------------------------------
+
+ Page: 00
+  Org: 00008200  Size: *  Used: 00000000
+
+    No output
+
+ Output: sample2b.bin
+-------------------------------------------------
+
+ Page: 00
+  Org: 00008200  Size: *  Used: 0000001A
+
+   Address   Length Align   Label
+   00008200      26         START

@@ -1,0 +1,51 @@
+Sjasm Z80 Assembler v0.42c - www.xl2s.tk             [2017.03.14 - 18:46:03]
+
+sample1.asm
+Errors: 0
+
+       1   00:0000                      
+       2   00:0000                      
+       3   00:0000                      
+       4   00:0000                      	output 	"sample1.bin"
+       5   00:8500                      
+       6   00:8500  FE                  	db #fe				;cabecera de ficheros que seran cargados con BLOAD desde BASIC
+       7   00:8501  00 85               	dw START
+       8   00:8503  0C 85               	dw END
+       9   00:8505  00 85               	dw START
+      10   00:8507                      
+      11   00:8507                      	org #8500			;posición de memoria donde comienza el programa
+      12   00:8500                      
+      13   00:8500                      START:
+      14   00:8500                      
+      15   00:8500  3A 00 86            	ld	a,[#8600]		;cargo el byte de la posición de memoria #8600 en el registro A
+      16   00:8503  47                  	ld 	b,a				;cargo el byte contenido en A en el registro B 
+      17   00:8504  3A 01 86            	ld 	a,[#8601]		;cargo el byte de la posición de memoria #8601 en el registro A
+      18   00:8507  80                  	add a,b				;sumo el valor de A y el de B y lo dejo en el registro A
+      19   00:8508  32 02 86            	ld	[#8602],a		;dejo el valor de A en la posición de memoria #8602
+      20   00:850B                      	
+      21   00:850B  C9                  	ret					;vuelvo al BASIC
+      22   00:850C                      
+      23   00:850C                      END:
+
+    LABELS
+-------------------------------------------------
+00:00008500   START
+00:0000850C   END
+
+
+ Output: sample1.out
+-------------------------------------------------
+
+ Page: 00
+  Org: 00008500  Size: *  Used: 00000000
+
+    No output
+
+ Output: sample1.bin
+-------------------------------------------------
+
+ Page: 00
+  Org: 00008500  Size: *  Used: 00000013
+
+   Address   Length Align   Label
+   00008500      19         START
