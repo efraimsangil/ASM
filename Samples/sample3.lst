@@ -1,4 +1,4 @@
-Sjasm Z80 Assembler v0.42c - www.xl2s.tk             [2017.03.20 - 19:05:54]
+Sjasm Z80 Assembler v0.42c - www.xl2s.tk             [2017.03.20 - 19:52:32]
 
 sample3.asm
 Errors: 0
@@ -14,59 +14,72 @@ Errors: 0
        9   00:8200                      	
       10   00:8200  FE                  	db #fe						; cabecera de ficheros que serán cargados con BLOAD desde BASIC
       11   00:8201  00 82               	dw START
-      12   00:8203  36 82               	dw END
+      12   00:8203  3E 82               	dw END
       13   00:8205  00 82               	dw START
       14   00:8207                      
       15   00:8207                      	org #8200
       16   00:8200                      
       17   00:8200                      START:
-      18   00:8200                      	
-      19   00:8200  CD 9F 00            	call 	CHGET				;se queda aquí esperando a que se pulse una tecla
-      20   00:8203                      								; el código ASCII de la tecla se queda pulsada se guarda en el registro A
-      21   00:8203  FE 71               	cp 		'q'					;compara el valor contenido en el registro A con el código ASCII de la letra q (113)
-      22   00:8205  C8                  	ret		z					; termina la rutina y vuelve al BASIC si la comparación ha sido valor de registro A igual a ASCII de 'q'
-      23   00:8206                      	
-      24   00:8206  32 36 82            	ld		(ch_leido),a		;metemos en la posición de memoria ch_leido el valor del registro A (el ASCII de la tecla pulsada)
-      25   00:8209                      	
-      26   00:8209                      	;posicionamos el cursor
-      27   00:8209                      	
-      28   00:8209  3A 39 82            	ld 		a,(eje_y)
-      29   00:820C  67                  	ld 		h,a
-      30   00:820D                      
-      31   00:820D  3A 38 82            	ld 		a,(eje_x)
-      32   00:8210  6F                  	ld 		l,a
-      33   00:8211                      
-      34   00:8211                      	;ld      l,1
-      35   00:8211                      	;ld		hl,(eje_Y)					;posición Y en registro H
-      36   00:8211                      	;ld		l,1						;posición X en registro L 
-      37   00:8211  CD C6 00            	call 	POSIT				;esta llamada a la BIOS es como un LOCATE de BASIC
-      38   00:8214                      	
-      39   00:8214                      	;inicializamos la variable contador
-      40   00:8214  3E 00               	ld		a,0					;ahora el registro A tiene el valor 0
-      41   00:8216  32 37 82            	ld		(contador),a		;metemos en la variable contador el valor del registro A 
-      42   00:8219                      	
-      43   00:8219                      bucle:
-      44   00:8219  3A 36 82            	ld		a,(ch_leido)		;ahora A tiene el valor de la tecla pulsada
-      45   00:821C  CD A2 00            	call 	CHPUT				;imprime el caracter donde esté el cursor y avanza
-      46   00:821F                      
-      47   00:821F  3A 37 82            	ld 		a,(contador)		;registro A tiene el valor actual del contador
-      48   00:8222  3C                  	inc		a 					;a=a+1	
-      49   00:8223  32 37 82            	ld 		(contador),a 		;volvemos a meter el valor de A en la variable contador
-      50   00:8226  FE 28               	cp 		40					;el valor de A es 40?
-      51   00:8228  3A 39 82            	ld 		a,(eje_y)
-      52   00:822B  C6 08               	add 	a,8
-      53   00:822D  32 39 82            	ld 		(eje_y),a
-      54   00:8230  C2 19 82            	jp		nz,bucle			;comprueba el flag NZ (nozero) si es cero su valor salta al bucle, si es 1 (zero) no hace nada
-      55   00:8233                      	
-      56   00:8233  C3 00 82            	jp 		START				;vuelve al principio
-      57   00:8236                      	
-      58   00:8236                      END:
-      59   00:8236                      
-      60   00:8236                      ; DEFINICION DE VARIABLES
-      61   00:8236  00                  ch_leido	db		0
-      62   00:8237  00                  contador	db		0
-      63   00:8238  00                  eje_x		db		0
-      64   00:8239  00                  eje_y		db		0
+      18   00:8200                      
+      19   00:8200  3E 00               	ld 		a,0
+      20   00:8202  32 40 82            	ld 		(eje_x),a
+      21   00:8205  32 41 82            	ld		(eje_y),a 
+      22   00:8208  CD 9F 00            	call 	CHGET				;se queda aquí esperando a que se pulse una tecla
+      23   00:820B                      								; el código ASCII de la tecla se queda pulsada se guarda en el registro A
+      24   00:820B  FE 71               	cp 		'q'					;compara el valor contenido en el registro A con el código ASCII de la letra q (113)
+      25   00:820D  C8                  	ret		z					; termina la rutina y vuelve al BASIC si la comparación ha sido valor de registro A igual a ASCII de 'q'
+      26   00:820E                      	
+      27   00:820E  32 3E 82            	ld		(ch_leido),a		;metemos en la posición de memoria ch_leido el valor del registro A (el ASCII de la tecla pulsada)
+      28   00:8211                      	
+      29   00:8211                      	;posicionamos el cursor
+      30   00:8211                      
+      31   00:8211  3A 40 82            	ld 		a,(eje_x)
+      32   00:8214  6F                  	ld 		l,a
+      33   00:8215  3A 41 82            	ld 		a,(eje_y)
+      34   00:8218  67                  	ld 		h,a
+      35   00:8219                      
+      36   00:8219                      	;ld      l,1
+      37   00:8219                      	;ld		hl,(eje_Y)					;posición Y en registro H
+      38   00:8219                      	;ld		l,1						;posición X en registro L 
+      39   00:8219  CD C6 00            	call 	POSIT				;esta llamada a la BIOS es como un LOCATE de BASIC
+      40   00:821C                      	
+      41   00:821C                      	;inicializamos la variable contador
+      42   00:821C  3E 00               	ld		a,0					;ahora el registro A tiene el valor 0
+      43   00:821E  32 3F 82            	ld		(contador),a		;metemos en la variable contador el valor del registro A 
+      44   00:8221                      	
+      45   00:8221                      bucle:
+      46   00:8221  3A 3E 82            	ld		a,(ch_leido)		;ahora A tiene el valor de la tecla pulsada
+      47   00:8224  CD A2 00            	call 	CHPUT				;imprime el caracter donde esté el cursor y avanza
+      48   00:8227                      
+      49   00:8227  3A 3F 82            	ld 		a,(contador)	;registro A tiene el valor actual del contador
+      50   00:822A  3C                  	inc		a ;a=a+1	
+      51   00:822B  32 3F 82            	ld 		(contador),a ;volvemos a meter el valor de A en la variable contador
+      52   00:822E  FE 14               	cp 		20	;el valor de A es 40?
+      53   00:8230  C2 21 82            	jp		nz,bucle	
+      54   00:8233  3A 41 82            	ld 		a,(eje_y)
+      55   00:8236  C6 08               	add 	a,8
+      56   00:8238  32 41 82            	ld 		(eje_y),a
+      57   00:823B                      	
+      58   00:823B                      
+      59   00:823B                      	;ld 		a,(contador)		;registro A tiene el valor actual del contador
+      60   00:823B                      	;inc		a 					;a=a+1	
+      61   00:823B                      	;ld 		(contador),a 		;volvemos a meter el valor de A en la variable contador
+      62   00:823B                      	;ld 		a,(eje_y)
+      63   00:823B                      	;add 	a,8
+      64   00:823B                      	;ld 		(eje_y),a
+      65   00:823B                      	;cp 		40					;el valor de A es 40?
+      66   00:823B                      
+      67   00:823B                      	;jp		nz,bucle			;comprueba el flag NZ (nozero) si es cero su valor salta al bucle, si es 1 (zero) no hace nada
+      68   00:823B                      	
+      69   00:823B  C3 00 82            	jp 		START				;vuelve al principio
+      70   00:823E                      	
+      71   00:823E                      END:
+      72   00:823E                      
+      73   00:823E                      ; DEFINICION DE VARIABLES
+      74   00:823E  00                  ch_leido	db		0
+      75   00:823F  00                  contador	db		0
+      76   00:8240  00                  eje_x		db		0
+      77   00:8241  00                  eje_y		db		0
 
     LABELS
 -------------------------------------------------
@@ -74,12 +87,12 @@ Errors: 0
 00:000000A2   CHPUT
 00:000000C6   POSIT
 00:00008200   START
-00:00008219   bucle
-00:00008236   END
-00:00008236   ch_leido
-00:00008237   contador
-00:00008238   eje_x
-00:00008239   eje_y
+00:00008221   bucle
+00:0000823E   END
+00:0000823E   ch_leido
+00:0000823F   contador
+00:00008240   eje_x
+00:00008241   eje_y
 
 
  Output: sample3.out
@@ -94,7 +107,7 @@ Errors: 0
 -------------------------------------------------
 
  Page: 00
-  Org: 00008200  Size: *  Used: 00000041
+  Org: 00008200  Size: *  Used: 00000049
 
    Address   Length Align   Label
-   00008200      65         START
+   00008200      73         START

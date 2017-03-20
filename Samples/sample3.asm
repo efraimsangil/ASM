@@ -15,7 +15,10 @@ POSIT	equ		#00C6
 	org #8200
 
 START:
-	
+
+	ld 		a,0
+	ld 		(eje_x),a
+	ld		(eje_y),a 
 	call 	CHGET				;se queda aquí esperando a que se pulse una tecla
 								; el código ASCII de la tecla se queda pulsada se guarda en el registro A
 	cp 		'q'					;compara el valor contenido en el registro A con el código ASCII de la letra q (113)
@@ -24,12 +27,11 @@ START:
 	ld		(ch_leido),a		;metemos en la posición de memoria ch_leido el valor del registro A (el ASCII de la tecla pulsada)
 	
 	;posicionamos el cursor
-	
-	ld 		a,(eje_y)
-	ld 		h,a
 
 	ld 		a,(eje_x)
 	ld 		l,a
+	ld 		a,(eje_y)
+	ld 		h,a
 
 	;ld      l,1
 	;ld		hl,(eje_Y)					;posición Y en registro H
@@ -44,14 +46,25 @@ bucle:
 	ld		a,(ch_leido)		;ahora A tiene el valor de la tecla pulsada
 	call 	CHPUT				;imprime el caracter donde esté el cursor y avanza
 
-	ld 		a,(contador)		;registro A tiene el valor actual del contador
-	inc		a 					;a=a+1	
-	ld 		(contador),a 		;volvemos a meter el valor de A en la variable contador
-	cp 		40					;el valor de A es 40?
+	ld 		a,(contador)	;registro A tiene el valor actual del contador
+	inc		a ;a=a+1	
+	ld 		(contador),a ;volvemos a meter el valor de A en la variable contador
+	cp 		20	;el valor de A es 40?
+	jp		nz,bucle	
 	ld 		a,(eje_y)
 	add 	a,8
 	ld 		(eje_y),a
-	jp		nz,bucle			;comprueba el flag NZ (nozero) si es cero su valor salta al bucle, si es 1 (zero) no hace nada
+	
+
+	;ld 		a,(contador)		;registro A tiene el valor actual del contador
+	;inc		a 					;a=a+1	
+	;ld 		(contador),a 		;volvemos a meter el valor de A en la variable contador
+	;ld 		a,(eje_y)
+	;add 	a,8
+	;ld 		(eje_y),a
+	;cp 		40					;el valor de A es 40?
+
+	;jp		nz,bucle			;comprueba el flag NZ (nozero) si es cero su valor salta al bucle, si es 1 (zero) no hace nada
 	
 	jp 		START				;vuelve al principio
 	
